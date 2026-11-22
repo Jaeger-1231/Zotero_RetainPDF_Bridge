@@ -1,0 +1,889 @@
+/* ============================================================
+   RetainPDF 中控台 —— HeroUI 风格的原生组件层
+   只消费 ui/tokens.css 的 var(--rp-*);明暗差异只存在于 tokens。
+   保留既定信息架构:GitHub 式左侧分组导航、单栏限宽、任务卡片
+   固定等高。组件语言统一为 bordered / light / ghost 按钮、
+   语义 Chip、柔和表面层级与清晰的键盘焦点。
+   图标经 mask-image 上色,SVG 文件本身不带颜色。
+   ============================================================ */
+
+/* ---- 图标(mask 上色) ---- */
+
+.rp-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  background-color: currentColor;
+  -webkit-mask: var(--rp-icon) center / contain no-repeat;
+  mask: var(--rp-icon) center / contain no-repeat;
+}
+
+.rp-icon--list {
+  --rp-icon: url("../ui/icons/list.svg");
+}
+.rp-icon--running {
+  --rp-icon: url("../ui/icons/status-running.svg");
+}
+.rp-icon--queued {
+  --rp-icon: url("../ui/icons/status-queued.svg");
+}
+.rp-icon--failed {
+  --rp-icon: url("../ui/icons/status-failed.svg");
+}
+.rp-icon--succeeded {
+  --rp-icon: url("../ui/icons/status-succeeded.svg");
+}
+.rp-icon--doc {
+  --rp-icon: url("../ui/icons/doc.svg");
+}
+.rp-icon--refresh {
+  --rp-icon: url("../ui/icons/refresh.svg");
+}
+.rp-icon--spinner {
+  --rp-icon: url("../ui/icons/spinner.svg");
+  animation: rp-dash-spin 0.8s linear infinite;
+}
+.rp-icon--clear {
+  --rp-icon: url("../ui/icons/clear.svg");
+}
+.rp-icon--empty {
+  --rp-icon: url("../ui/icons/empty.svg");
+}
+.rp-icon--external {
+  --rp-icon: url("../ui/icons/external.svg");
+}
+.rp-icon--sm {
+  width: 12px;
+  height: 12px;
+}
+
+@keyframes rp-dash-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---- 页面骨架 ---- */
+
+.rp-dash-root,
+.rp-dash-root *,
+.rp-dash-root *::before,
+.rp-dash-root *::after {
+  box-sizing: border-box;
+}
+
+.rp-dash-root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: clamp(20px, 3vw, 30px);
+  overflow: hidden;
+  background: var(--rp-bg);
+  color: var(--rp-ink);
+  font-family: var(--rp-font-sans);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.rp-dash-root h1,
+.rp-dash-root h3,
+.rp-dash-root p {
+  margin: 0;
+}
+
+.rp-dash-root ::selection {
+  background: var(--rp-accent-soft);
+  color: var(--rp-ink);
+}
+
+.rp-dash-root button {
+  font-family: inherit;
+}
+
+.rp-dash-root button:focus-visible {
+  outline: 2px solid var(--rp-accent);
+  outline-offset: 2px;
+}
+
+/* 内容限宽居中,超宽窗口仍保持稳定的阅读行长。 */
+.rp-dash-header,
+.rp-dash-errorbar,
+.rp-dash-main {
+  width: min(1040px, 100%);
+  margin-inline: auto;
+}
+
+/* ---- 头部 ---- */
+
+.rp-dash-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-shrink: 0;
+  margin-bottom: 20px;
+  padding: 0 2px 20px;
+  border-bottom: 1px solid var(--rp-line);
+}
+
+.rp-dash-header > div:first-child {
+  min-width: 0;
+}
+
+.rp-dash-eyebrow {
+  color: var(--rp-accent);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.rp-dash-title {
+  margin-top: 4px;
+  font-family: var(--rp-font-display);
+  font-size: 24px;
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  line-height: 1.25;
+}
+
+.rp-dash-subtitle {
+  margin-top: 6px;
+  color: var(--rp-muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+/* ---- HeroUI 式按钮:默认 bordered,详情使用 ghost ---- */
+
+.rp-dash-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 0 14px;
+  border: 1px solid var(--rp-line);
+  border-radius: 10px;
+  background: var(--rp-paper);
+  box-shadow: var(--rp-shadow-sm);
+  color: var(--rp-ink-soft);
+  font-size: 12px;
+  font-weight: 550;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 160ms var(--rp-ease-out),
+    border-color 160ms var(--rp-ease-out),
+    box-shadow 160ms var(--rp-ease-out),
+    color 160ms var(--rp-ease-out),
+    transform 160ms var(--rp-ease-out);
+}
+
+.rp-dash-btn:hover {
+  border-color: var(--rp-line-strong);
+  background: var(--rp-surface);
+  color: var(--rp-ink);
+}
+
+.rp-dash-btn:active {
+  transform: scale(0.97);
+}
+
+.rp-dash-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+  transform: none;
+}
+
+.rp-dash-btn:disabled:hover {
+  border-color: var(--rp-line);
+  background: var(--rp-paper);
+}
+
+.rp-dash-refresh {
+  flex-shrink: 0;
+}
+
+.rp-dash-refresh .rp-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--rp-muted);
+}
+
+.rp-dash-refresh[data-state="loading"] .rp-icon--refresh {
+  color: var(--rp-accent);
+  animation: rp-dash-spin 0.8s linear infinite;
+}
+
+/* 首屏失败后的唯一主动作使用 solid 层级,其余按钮保持安静。 */
+#rp-dash-retry {
+  margin-top: 6px;
+  border-color: var(--rp-accent);
+  background: var(--rp-accent);
+  color: var(--rp-on-accent);
+}
+
+#rp-dash-retry:hover {
+  border-color: var(--rp-accent-hover);
+  background: var(--rp-accent-hover);
+  color: var(--rp-on-accent);
+}
+
+/* ---- 非致命错误横幅(有数据时刷新失败) ---- */
+
+.rp-dash-errorbar {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+  margin-bottom: 14px;
+  padding: 10px 13px;
+  border: 1px solid color-mix(in srgb, var(--rp-danger) 22%, transparent);
+  border-radius: var(--rp-radius-md);
+  background: var(--rp-danger-weak);
+  color: var(--rp-danger);
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+.rp-dash-errorbar::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.rp-dash-errorbar[hidden] {
+  display: none;
+}
+
+/* ---- 主区:左导航 + 右内容 ---- */
+
+.rp-dash-main {
+  display: flex;
+  flex: 1;
+  gap: 26px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.rp-dash-nav {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 4px;
+  width: 192px;
+  padding: 2px 0;
+}
+
+.rp-dash-nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 38px;
+  padding: 7px 10px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--rp-muted);
+  font-size: 12.5px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background 160ms var(--rp-ease-out),
+    border-color 160ms var(--rp-ease-out),
+    color 160ms var(--rp-ease-out);
+}
+
+.rp-dash-nav-item .rp-icon {
+  width: 15px;
+  height: 15px;
+  color: var(--rp-faint);
+  transition: color 160ms var(--rp-ease-out);
+}
+
+.rp-dash-nav-item:hover {
+  background: var(--rp-surface);
+  color: var(--rp-ink);
+}
+
+.rp-dash-nav-item:hover .rp-icon {
+  color: var(--rp-ink-soft);
+}
+
+.rp-dash-nav-item[aria-current="page"] {
+  border-color: color-mix(in srgb, var(--rp-accent) 9%, transparent);
+  background: var(--rp-accent-weak);
+  color: var(--rp-accent);
+  font-weight: 600;
+}
+
+.rp-dash-nav-item[aria-current="page"] .rp-icon {
+  color: var(--rp-accent);
+}
+
+.rp-dash-nav-item[aria-current="page"]::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: var(--rp-radius-full);
+  background: var(--rp-accent);
+}
+
+/* HeroUI Chip 式计数:紧凑、等宽数字、选中态与导航同色系。 */
+.rp-dash-nav-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 20px;
+  margin-left: auto;
+  padding: 0 6px;
+  border-radius: var(--rp-radius-full);
+  background: var(--rp-surface);
+  color: var(--rp-muted);
+  font-size: 10.5px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 550;
+  line-height: 1;
+}
+
+.rp-dash-nav-item[aria-current="page"] .rp-dash-nav-count {
+  background: var(--rp-accent-soft);
+  color: var(--rp-accent);
+}
+
+/* ---- 内容区(单栏,纵向滚动,横向锁死) ---- */
+
+.rp-dash-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  max-width: 800px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.rp-dash-contentbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  min-height: 30px;
+  padding: 0 2px 12px;
+}
+
+.rp-dash-contentbar[hidden] {
+  display: none;
+}
+
+.rp-dash-view-label {
+  color: var(--rp-ink-soft);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.rp-dash-clear {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 28px;
+  padding: 0 9px;
+  border: 1px solid transparent;
+  border-radius: var(--rp-radius-sm);
+  background: transparent;
+  color: var(--rp-muted);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 160ms var(--rp-ease-out),
+    color 160ms var(--rp-ease-out),
+    transform 160ms var(--rp-ease-out);
+}
+
+.rp-dash-clear:hover {
+  background: var(--rp-danger-weak);
+  color: var(--rp-danger);
+}
+
+.rp-dash-clear:active {
+  transform: scale(0.97);
+}
+
+.rp-dash-clear:disabled {
+  opacity: 0.45;
+  cursor: default;
+  transform: none;
+}
+
+.rp-dash-clear .rp-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.rp-dash-clear[hidden] {
+  display: none;
+}
+
+/* ---- 状态视图(加载 / 失败 / 空) ---- */
+
+.rp-dash-state {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 0;
+  padding: 40px 20px;
+  text-align: center;
+  animation: rp-dash-state-in 280ms var(--rp-ease-out) both;
+}
+
+.rp-dash-state[hidden] {
+  display: none;
+}
+
+.rp-dash-state > .rp-icon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 4px;
+  color: var(--rp-faint);
+}
+
+#rp-dash-loading > .rp-icon {
+  color: var(--rp-accent);
+}
+
+#rp-dash-error > .rp-icon {
+  color: var(--rp-danger);
+}
+
+.rp-dash-state-title {
+  color: var(--rp-ink-soft);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.rp-dash-state-desc {
+  max-width: 440px;
+  color: var(--rp-muted);
+  font-size: 12px;
+  line-height: 1.65;
+  overflow-wrap: break-word;
+}
+
+@keyframes rp-dash-state-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---- 卡片列表:单栏等宽,纵向滚动 ---- */
+
+.rp-dash-list {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+  padding: 2px 6px 14px 2px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-color: var(--rp-line-strong) transparent;
+  scrollbar-width: thin;
+}
+
+.rp-dash-list[hidden] {
+  display: none;
+}
+
+.rp-dash-list-empty {
+  margin-top: 2px;
+  padding: 44px 16px;
+  border: 1px dashed var(--rp-line-strong);
+  border-radius: var(--rp-radius-lg);
+  background: var(--rp-surface);
+  color: var(--rp-muted);
+  font-size: 12px;
+  text-align: center;
+  animation: rp-dash-state-in 280ms var(--rp-ease-out) both;
+}
+
+.rp-dash-list-empty[hidden] {
+  display: none;
+}
+
+/* ---- 任务卡片(固定高度,三段式) ----
+   头部信息 / 中部进度区(弹性占位) / 底部操作行;
+   所有状态组合下严格等高。 */
+
+.rp-dash-card {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  height: 154px;
+  padding: 15px 17px 11px;
+  border: 1px solid var(--rp-line);
+  border-radius: 14px;
+  background: var(--rp-paper);
+  box-shadow: var(--rp-shadow-sm);
+  transition:
+    border-color 180ms var(--rp-ease-out),
+    box-shadow 180ms var(--rp-ease-out),
+    transform 180ms var(--rp-ease-out);
+}
+
+@media (hover: hover) {
+  .rp-dash-card:hover {
+    border-color: color-mix(in srgb, var(--rp-accent) 22%, var(--rp-line));
+    box-shadow: var(--rp-shadow-md);
+    transform: translateY(-1px);
+  }
+}
+
+.rp-dash-card:focus-within {
+  border-color: color-mix(in srgb, var(--rp-accent) 38%, var(--rp-line));
+}
+
+.rp-dash-card-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.rp-dash-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  margin-top: 1px;
+  border-radius: 11px;
+  background: var(--rp-accent-weak);
+  color: var(--rp-accent);
+}
+
+.rp-dash-card-icon .rp-icon {
+  width: 17px;
+  height: 17px;
+}
+
+.rp-dash-card-body {
+  flex: 1;
+  min-width: 0;
+  padding-top: 1px;
+}
+
+.rp-dash-card-titlerow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.rp-dash-badge {
+  flex-shrink: 0;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: var(--rp-surface);
+  color: var(--rp-muted);
+  font-size: 10px;
+  font-weight: 550;
+  line-height: 1.4;
+}
+
+.rp-dash-card-title {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--rp-ink);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rp-dash-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px 12px;
+  margin-top: 5px;
+  color: var(--rp-muted);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.rp-dash-card-meta code {
+  color: var(--rp-ink-soft);
+  font-family: var(--rp-font-mono);
+  font-size: 10.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 中部进度区吃掉剩余高度,内容底部对齐贴在操作行上方。 */
+.rp-dash-zone {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 0;
+  padding-bottom: 2px;
+}
+
+.rp-dash-progress {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.rp-dash-progress[hidden] {
+  display: none;
+}
+
+.rp-dash-progress-track {
+  flex: 1;
+  height: 7px;
+  overflow: hidden;
+  border-radius: var(--rp-radius-full);
+  background: var(--rp-accent-weak);
+}
+
+.rp-dash-progress-bar {
+  height: 100%;
+  border-radius: var(--rp-radius-full);
+  background: var(--rp-accent);
+  transition: width 360ms var(--rp-ease-out);
+}
+
+.rp-dash-progress-pct {
+  width: 36px;
+  color: var(--rp-accent);
+  font-size: 10.5px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  text-align: right;
+}
+
+.rp-dash-stage {
+  margin-top: 5px;
+  overflow: hidden;
+  color: var(--rp-muted);
+  font-size: 11px;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rp-dash-stage[hidden] {
+  display: none;
+}
+
+/* 语义 Chip:文字 + 圆点双重表达,不只依赖颜色。 */
+.rp-dash-pill {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 6px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  padding: 4px 9px;
+  border-radius: var(--rp-radius-full);
+  background: var(--rp-surface);
+  color: var(--rp-muted);
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.rp-dash-pill::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.rp-dash-pill[data-status="running"] {
+  background: var(--rp-accent-weak);
+  color: var(--rp-accent);
+}
+
+.rp-dash-pill[data-status="running"]::before {
+  animation: rp-dash-live 1.8s ease-in-out infinite;
+}
+
+.rp-dash-pill[data-status="failed"] {
+  background: var(--rp-danger-weak);
+  color: var(--rp-danger);
+}
+
+.rp-dash-pill[data-status="succeeded"] {
+  background: var(--rp-ok-weak);
+  color: var(--rp-ok);
+}
+
+.rp-dash-pill[data-status="queued"] {
+  background: var(--rp-warn-weak);
+  color: var(--rp-warn);
+}
+
+@keyframes rp-dash-live {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.rp-dash-card-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 9px;
+  padding-top: 9px;
+  border-top: 1px solid color-mix(in srgb, var(--rp-line) 72%, transparent);
+}
+
+.rp-dash-open {
+  min-height: 26px;
+  margin-right: -7px;
+  padding: 0 8px;
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  color: var(--rp-muted);
+  font-size: 11px;
+  font-weight: 550;
+}
+
+.rp-dash-open:hover {
+  border-color: transparent;
+  background: var(--rp-accent-weak);
+  color: var(--rp-accent);
+}
+
+.rp-dash-open .rp-icon {
+  width: 12px;
+  height: 12px;
+}
+
+/* ---- 窄窗口:先压缩侧栏,再转为可横向浏览的分段导航 ---- */
+
+@media (max-width: 760px) {
+  .rp-dash-root {
+    padding: 20px;
+  }
+
+  .rp-dash-header {
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+  }
+
+  .rp-dash-main {
+    gap: 18px;
+  }
+
+  .rp-dash-nav {
+    width: 164px;
+  }
+
+  .rp-dash-title {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 580px) {
+  .rp-dash-root {
+    padding: 16px;
+  }
+
+  .rp-dash-header {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .rp-dash-title {
+    font-size: 20px;
+  }
+
+  .rp-dash-subtitle {
+    font-size: 11px;
+  }
+
+  .rp-dash-refresh {
+    min-height: 32px;
+    padding-inline: 11px;
+  }
+
+  .rp-dash-main {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .rp-dash-nav {
+    flex-direction: row;
+    gap: 4px;
+    width: 100%;
+    padding: 0 0 4px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+  }
+
+  .rp-dash-nav-item {
+    flex: none;
+    width: auto;
+    min-height: 34px;
+    padding: 5px 9px;
+    white-space: nowrap;
+  }
+
+  .rp-dash-nav-item[aria-current="page"]::before {
+    display: none;
+  }
+
+  .rp-dash-nav-count {
+    margin-left: 2px;
+  }
+
+  .rp-dash-content {
+    max-width: none;
+  }
+
+  .rp-dash-card {
+    padding-inline: 14px;
+  }
+
+  .rp-dash-card-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .rp-dash-pill {
+    padding-inline: 7px;
+  }
+}

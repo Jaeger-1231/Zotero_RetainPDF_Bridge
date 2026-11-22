@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "Zotero_RetainPDF_Bridge",
+  "version": "1.0.0",
+  "description": "Zotero_RetainPDF_Bridge — RetainPDF 排版保留双语文献翻译 Zotero 桥接插件",
+  "homepage_url": "https://github.com/Jaeger-1231/Zotero_RetainPDF_Bridge",
+  "author": "Jaeger-1231",
+  "icons": {
+    "48": "content/icons/favicon@0.5x.png",
+    "96": "content/icons/favicon.png"
+  },
+  "applications": {
+    "zotero": {
+      "id": "retainpdf@retain-pdf.local",
+      "strict_min_version": "6.999",
+      "strict_max_version": "*"
+    }
+  }
+}

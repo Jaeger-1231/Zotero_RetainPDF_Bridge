@@ -1,0 +1,279 @@
+<linkset>
+  <html:link rel="localization" href="retainpdf-preferences.ftl" />
+</linkset>
+<vbox
+  class="rp-root"
+  onload="Zotero.RetainPDF.hooks.onPrefsEvent('load', { window })"
+>
+  <groupbox class="rp-group">
+    <hbox class="rp-group-header" align="center">
+      <vbox flex="1">
+        <html:h2 class="rp-group-title" data-l10n-id="retainpdf-pref-title"></html:h2>
+        <html:div
+          class="rp-group-desc"
+          data-l10n-id="retainpdf-pref-server-desc"
+        ></html:div>
+      </vbox>
+      <button
+        id="zotero-prefpane-retainpdf-check-server"
+        class="rp-check-btn"
+        data-l10n-id="retainpdf-pref-check"
+        oncommand="
+          Zotero.RetainPDF.hooks.onPrefsEvent('checkConnection', {
+            window,
+          })
+        "
+      ></button>
+    </hbox>
+    <html:div
+      class="rp-status"
+      id="zotero-prefpane-retainpdf-check-result-server"
+      role="status"
+      hidden="true"
+    ></html:div>
+    <vbox class="rp-fields">
+      <hbox class="rp-field" align="center">
+        <html:label
+          class="rp-label"
+          for="zotero-prefpane-retainpdf-server"
+          data-l10n-id="retainpdf-pref-server"
+        ></html:label>
+        <html:input
+          class="rp-input"
+          type="text"
+          id="zotero-prefpane-retainpdf-server"
+          preference="extensions.zotero.retainpdf.serverBaseURL"
+          flex="1"
+        ></html:input>
+      </hbox>
+    </vbox>
+  </groupbox>
+  <groupbox class="rp-group">
+    <hbox class="rp-group-header" align="center">
+      <vbox flex="1">
+        <html:h2 class="rp-group-title" data-l10n-id="retainpdf-pref-ocr-title"></html:h2>
+        <html:div class="rp-group-desc" data-l10n-id="retainpdf-pref-ocr-desc"></html:div>
+      </vbox>
+      <button
+        id="zotero-prefpane-retainpdf-check-ocr"
+        class="rp-check-btn"
+        data-l10n-id="retainpdf-pref-check"
+        oncommand="
+          Zotero.RetainPDF.hooks.onPrefsEvent('checkOcr', { window })
+        "
+      ></button>
+    </hbox>
+    <html:div
+      class="rp-status"
+      id="zotero-prefpane-retainpdf-check-result-ocr"
+      role="status"
+      hidden="true"
+    ></html:div>
+    <vbox class="rp-fields">
+      <hbox class="rp-field" align="center">
+        <html:label
+          class="rp-label"
+          data-l10n-id="retainpdf-pref-ocr-engine"
+        ></html:label>
+        <hbox
+          class="rp-segment"
+          id="zotero-prefpane-retainpdf-ocr-provider"
+          role="radiogroup"
+        >
+          <html:button
+            class="rp-segment-item"
+            role="radio"
+            aria-checked="false"
+            data-value="paddle"
+            data-l10n-id="retainpdf-pref-ocr-paddle"
+          ></html:button>
+          <html:button
+            class="rp-segment-item"
+            role="radio"
+            aria-checked="false"
+            data-value="mineru"
+            data-l10n-id="retainpdf-pref-ocr-mineru"
+          ></html:button>
+        </hbox>
+      </hbox>
+      <hbox
+        class="rp-field"
+        align="center"
+        id="zotero-prefpane-retainpdf-paddle-token-row"
+      >
+        <html:label
+          class="rp-label"
+          for="zotero-prefpane-retainpdf-paddle-token"
+          data-l10n-id="retainpdf-pref-paddle-token"
+        ></html:label>
+        <hbox class="rp-secret" flex="1" align="center">
+          <html:input
+            class="rp-input"
+            type="text"
+            id="zotero-prefpane-retainpdf-paddle-token"
+            preference="extensions.zotero.retainpdf.paddleToken"
+            flex="1"
+          ></html:input>
+        </hbox>
+      </hbox>
+      <hbox
+        class="rp-field"
+        align="center"
+        id="zotero-prefpane-retainpdf-mineru-token-row"
+      >
+        <html:label
+          class="rp-label"
+          for="zotero-prefpane-retainpdf-mineru-token"
+          data-l10n-id="retainpdf-pref-mineru-token"
+        ></html:label>
+        <hbox class="rp-secret" flex="1" align="center">
+          <html:input
+            class="rp-input"
+            type="text"
+            id="zotero-prefpane-retainpdf-mineru-token"
+            preference="extensions.zotero.retainpdf.mineruToken"
+            flex="1"
+          ></html:input>
+        </hbox>
+      </hbox>
+    </vbox>
+  </groupbox>
+  <groupbox class="rp-group">
+    <hbox class="rp-group-header" align="center">
+      <vbox flex="1">
+        <html:h2 class="rp-group-title" data-l10n-id="retainpdf-pref-llm-title"></html:h2>
+        <html:div class="rp-group-desc" data-l10n-id="retainpdf-pref-llm-desc"></html:div>
+      </vbox>
+      <button
+        id="zotero-prefpane-retainpdf-check-llm"
+        class="rp-check-btn"
+        data-l10n-id="retainpdf-pref-check"
+        oncommand="
+          Zotero.RetainPDF.hooks.onPrefsEvent('checkLlm', { window })
+        "
+      ></button>
+    </hbox>
+    <html:div
+      class="rp-status"
+      id="zotero-prefpane-retainpdf-check-result-llm"
+      role="status"
+      hidden="true"
+    ></html:div>
+    <vbox class="rp-fields">
+      <hbox class="rp-field" align="center">
+        <html:label class="rp-label" data-l10n-id="retainpdf-pref-llm-mode"></html:label>
+        <hbox
+          class="rp-segment"
+          id="zotero-prefpane-retainpdf-llm-mode"
+          role="radiogroup"
+        >
+          <html:button
+            class="rp-segment-item"
+            role="radio"
+            aria-checked="false"
+            data-value="deepseek"
+            data-l10n-id="retainpdf-pref-llm-deepseek"
+          ></html:button>
+          <html:button
+            class="rp-segment-item"
+            role="radio"
+            aria-checked="false"
+            data-value="custom"
+            data-l10n-id="retainpdf-pref-llm-custom"
+          ></html:button>
+        </hbox>
+      </hbox>
+      <hbox
+        class="rp-field"
+        align="center"
+        id="zotero-prefpane-retainpdf-llm-base-url-official-row"
+      >
+        <html:label
+          class="rp-label"
+          for="zotero-prefpane-retainpdf-llm-base-url-official"
+          data-l10n-id="retainpdf-pref-llm-base-url"
+        ></html:label>
+        <html:input
+          class="rp-input rp-input-static"
+          type="text"
+          id="zotero-prefpane-retainpdf-llm-base-url-official"
+          readonly="true"
+          flex="1"
+        ></html:input>
+      </hbox>
+      <hbox
+        class="rp-field"
+        align="center"
+        id="zotero-prefpane-retainpdf-llm-base-url-custom-row"
+      >
+        <html:label
+          class="rp-label"
+          for="zotero-prefpane-retainpdf-llm-base-url"
+          data-l10n-id="retainpdf-pref-llm-base-url"
+        ></html:label>
+        <html:input
+          class="rp-input"
+          type="text"
+          id="zotero-prefpane-retainpdf-llm-base-url"
+          preference="extensions.zotero.retainpdf.llmBaseUrl"
+          flex="1"
+        ></html:input>
+      </hbox>
+      <hbox class="rp-field" align="center">
+        <html:label
+          class="rp-label"
+          for="zotero-prefpane-retainpdf-llm-api-key"
+          data-l10n-id="retainpdf-pref-llm-api-key"
+        ></html:label>
+        <hbox class="rp-secret" flex="1" align="center">
+          <html:input
+            class="rp-input"
+            type="text"
+            id="zotero-prefpane-retainpdf-llm-api-key"
+            preference="extensions.zotero.retainpdf.llmApiKey"
+            flex="1"
+          ></html:input>
+        </hbox>
+      </hbox>
+      <hbox class="rp-field" align="center">
+        <html:label
+          class="rp-label"
+          for="zotero-prefpane-retainpdf-llm-model"
+          data-l10n-id="retainpdf-pref-llm-model"
+        ></html:label>
+        <hbox class="rp-model-picker" flex="1" align="center">
+          <html:select
+            class="rp-input rp-select"
+            id="zotero-prefpane-retainpdf-llm-model"
+            flex="1"
+          ></html:select>
+          <html:button
+            class="rp-icon-btn rp-refresh-btn"
+            id="zotero-prefpane-retainpdf-llm-models-refresh"
+            type="button"
+          ></html:button>
+        </hbox>
+      </hbox>
+      <hbox class="rp-field" align="center">
+        <html:label
+          class="rp-label"
+          for="zotero-prefpane-retainpdf-workers"
+          data-l10n-id="retainpdf-pref-workers"
+        ></html:label>
+        <html:input
+          class="rp-input rp-input-narrow"
+          type="text"
+          id="zotero-prefpane-retainpdf-workers"
+          preference="extensions.zotero.retainpdf.workers"
+        ></html:input>
+      </hbox>
+    </vbox>
+  </groupbox>
+  <vbox class="rp-footer">
+    <html:label
+      class="rp-build"
+      data-l10n-id="retainpdf-pref-help"
+      data-l10n-args='{"name": "RetainPDF","version":"0.1.14"}'
+    ></html:label>
+  </vbox>
+</vbox>
