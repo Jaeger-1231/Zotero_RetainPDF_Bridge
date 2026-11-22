@@ -5153,9 +5153,9 @@ html {
     btn.setAttribute("tooltiptext", getString("dashboard-window-title"));
     btn.setAttribute(
       "image",
-      `chrome://${config.addonRef}/content/icons/favicon@0.5x.png`
+      `chrome://${config.addonRef}/content/icons/toolbar.png`
     );
-    btn.style.listStyleImage = `url("chrome://${config.addonRef}/content/icons/favicon@0.5x.png")`;
+    btn.style.listStyleImage = `url("chrome://${config.addonRef}/content/icons/toolbar.png")`;
     btn.addEventListener("command", () => openDashboardWindow());
     const searchBox = doc.getElementById("zotero-tb-search");
     const before = searchBox && searchBox.parentElement === anchor ? searchBox.nextSibling : null;
