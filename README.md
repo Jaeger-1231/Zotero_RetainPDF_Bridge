@@ -4,7 +4,7 @@
 
 <h1 align="center">Zotero_RetainPDF_Bridge</h1>
 
-将 **Zotero 7+** 与本地 **RetainPDF** 桌面端无缝桥接的插件：在 Zotero 中一键调用 RetainPDF 进行保留排版（公式、图表、多栏布局）的学术文献翻译，并自动将**双语对照版 PDF（`contrast.pdf`）**与**译文版 PDF（`translated.pdf`）**挂回对应文献条目。
+将 **Zotero 7+** 与本地 **RetainPDF** 桌面端无缝桥接的插件：在 Zotero 中一键调用 RetainPDF 进行保留排版（公式、图表、多栏布局）的学术文献翻译，并自动将**双语对照版 PDF（`contrast.pdf`）**挂回对应文献条目。
 
 ## 功能特性
 
